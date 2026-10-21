@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AVI CODEX — GLORY PANEL</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+:root{
+    /* ===== PREMIUM MIDNIGHT + VIOLET ===== */
+    --bg:#05070c;
+    --bg-grad-1:#0a0d16;
+    --bg-grad-2:#05070c;
+
+    --surface:#0d1119;
+    --surface-2:#121722;
+    --surface-3:#1a202e;
+    --surface-glow:#1e2534;
+
+    --line:#1e2634;
+    --line-soft:#151b26;
+    --line-bright:#2a3446;
+
+    --text:#f5f7fc;
+    --text-soft:#c9d0dd;
+    --dim:#7f8ba0;
+    --faint:#4a5568;
+
+    --accent:#a78bfa;
+    --accent-2:#8b5cf6;
+    --accent-3:#7c3aed;
+    --accent-glow:rgba(167,139,250,.3);
+    --accent-soft:rgba(167,139,250,.1);
+
+    --ok:#34d399;
+    --ok-glow:rgba(52,211,153,.25);
+    --warn:#fbbf24;
+    --warn-glow:rgba(251,191,36,.2);
+    --bad:#f87171;
+    --bad-glow:rgba(248,113,113,.2);
+    --info:#60a5fa;
+    --info-glow:rgba(96,165,250,.2);
+
+    --r:18px;
+    --r-sm:12px;
+    --r-xs:8px;
+    --shadow:0 30px 60px -20px rgba(0,0,0,.9);
+    --shadow-soft:0 12px 32px -12px rgba(0,0,0,.7);
+    --shadow-glow:0 0 40px -8px var(--accent-glow);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans',system-ui,sans-serif;
+    font-size:14px;line-height:1.5;min-height:100vh;
+}
+body{
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139,92,246,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(96,165,250,.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 0% 100%, rgba(167,139,250,.06) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
+    background-attachment:fixed;
+}
+button,input,select,textarea{font-family:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.shell{max-width:1440px;margin:0 auto;padding:28px 28px 48px}
+
+/* ---------- Topbar ---------- */
+.topbar{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding-bottom:26px}
+.pulse{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--ok);
+    box-shadow:0 0 12px var(--ok-glow), 0 0 0 0 rgba(52,211,153,.6);
+    animation:pulse 2s infinite;
+}
+@keyframes pulse{70%{box-shadow:0 0 12px var(--ok-glow), 0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 12px var(--ok-glow), 0 0 0 0 rgba(52,211,153,0)}}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 20px;border-radius:var(--r-sm);
+    border:1px solid var(--line-bright);
+    background:linear-gradient(180deg, var(--surface-3) 0%, var(--surface-2) 100%);
+    font-size:13px;font-weight:600;letter-spacing:.01em;cursor:pointer;
+    transition:all .25s cubic-bezier(.4,0,.2,1);
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.06) inset,
+        0 6px 16px -6px rgba(0,0,0,.6);
+    position:relative;overflow:hidden;color:var(--text-soft);
+}
+.btn::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 50%);
+    pointer-events:none;
+}
+.btn:hover{
+    background:linear-gradient(180deg, var(--surface-glow) 0%, var(--surface-3) 100%);
+    border-color:#34405a;
+    transform:translateY(-1px);
+    color:var(--text);
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.08) inset,
+        0 10px 24px -8px rgba(0,0,0,.7),
+        0 0 0 1px rgba(167,139,250,.08);
+}
+.btn:active{transform:translateY(0)}
+
+.btn-primary{
+    background:linear-gradient(180deg, #b49bff 0%, #8b5cf6 50%, #7c3aed 100%);
+    border-color:#8b5cf6;color:#0a0616;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.4) inset,
+        0 8px 24px -6px var(--accent-glow),
+        0 0 20px -4px rgba(139,92,246,.4);
+}
+.btn-primary:hover{
+    background:linear-gradient(180deg, #c4aeff 0%, #a78bfa 50%, #8b5cf6 100%);
+    border-color:#a78bfa;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.5) inset,
+        0 12px 32px -8px var(--accent-glow),
+        0 0 32px -4px rgba(139,92,246,.6);
+}
+.btn-ok{
+    background:linear-gradient(180deg, #6ee7b7 0%, #34d399 50%, #10b981 100%);
+    border-color:#34d399;color:#021a10;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.4) inset,
+        0 8px 24px -6px var(--ok-glow),
+        0 0 20px -4px rgba(52,211,153,.35);
+}
+.btn-ok:hover{
+    background:linear-gradient(180deg, #86efac 0%, #4ade80 50%, #34d399 100%);
+    border-color:#4ade80;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,.5) inset,
+        0 12px 32px -8px var(--ok-glow),
+        0 0 32px -4px rgba(52,211,153,.5);
+}
+.btn:disabled{opacity:.55;cursor:wait;transform:none!important}
+
+/* ---------- Stats strip ---------- */
+.stats{
+    display:grid;grid-template-columns:repeat(5,1fr);
+    border:1px solid var(--line);border-radius:var(--r);
+    background:
+        linear-gradient(180deg, rgba(30,37,52,.5) 0%, rgba(13,17,25,.8) 100%);
+    overflow:hidden;
+    box-shadow:var(--shadow-soft), 0 0 0 1px rgba(255,255,255,.02) inset;
+    backdrop-filter:blur(20px);
+    position:relative;
+}
+.stats::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(167,139,250,.4),transparent);
+}
+.stat{padding:22px 26px;border-right:1px solid var(--line-soft);position:relative;transition:background .3s}
+.stat:last-child{border-right:0}
+.stat:hover{background:rgba(167,139,250,.03)}
+.stat .k{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:12.5px;font-weight:500;letter-spacing:.03em;text-transform:uppercase}
+.stat .k i{font-size:12px;color:var(--accent);opacity:.7}
+.stat .v{
+    font-family:'Sora',sans-serif;font-size:28px;font-weight:600;
+    margin-top:10px;letter-spacing:-.5px;
+    background:linear-gradient(180deg,#ffffff 0%, #b8c0d4 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;
+    filter:drop-shadow(0 2px 8px rgba(167,139,250,.15));
+}
+.stat .s{color:var(--faint);font-size:12px;margin-top:4px}
+
+/* ---------- Workspace ---------- */
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:22px;margin-top:22px;align-items:start}
+.panel{
+    border:1px solid var(--line);border-radius:var(--r);
+    background:
+        linear-gradient(180deg, rgba(18,23,34,.8) 0%, rgba(13,17,25,.95) 100%);
+    overflow:hidden;
+    box-shadow:var(--shadow-soft), 0 0 0 1px rgba(255,255,255,.02) inset;
+    backdrop-filter:blur(20px);
+    position:relative;
+}
+.panel::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(167,139,250,.25),transparent);
+    pointer-events:none;
+}
+.panel-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:18px 22px;border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+}
+.panel-head h2{font-family:'Sora',sans-serif;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+.count{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;
+    padding:3px 10px;border-radius:999px;
+    background:linear-gradient(180deg, rgba(167,139,250,.2), rgba(139,92,246,.15));
+    color:var(--accent);
+    border:1px solid rgba(167,139,250,.25);
+    box-shadow:0 0 12px -2px var(--accent-glow);
+}
+
+.controls{display:flex;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:200px}
+.search i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--faint);font-size:12px}
+.search input{
+    width:100%;padding:11px 14px 11px 40px;border-radius:var(--r-sm);
+    border:1px solid var(--line);background:rgba(5,7,12,.6);
+    font-size:13px;outline:none;transition:all .2s;
+}
+.search input::placeholder{color:var(--faint)}
+.search input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft), 0 0 20px -8px var(--accent-glow);
+    background:rgba(5,7,12,.9);
+}
+.seg{
+    display:flex;padding:3px;border-radius:var(--r-sm);
+    background:rgba(5,7,12,.6);border:1px solid var(--line);
+}
+.seg button{
+    border:0;background:none;padding:8px 15px;border-radius:9px;
+    color:var(--dim);font-size:12.5px;font-weight:600;cursor:pointer;
+    transition:all .2s;
+}
+.seg button:hover{color:var(--text-soft)}
+.seg button.active{
+    background:linear-gradient(180deg, rgba(167,139,250,.15), rgba(139,92,246,.1));
+    color:var(--accent);
+    box-shadow:0 2px 8px -2px rgba(0,0,0,.5), 0 0 0 1px rgba(167,139,250,.2) inset;
+}
+
+.accounts{max-height:760px;overflow-y:auto;padding:18px;display:grid;gap:14px}
+.accounts::-webkit-scrollbar,.console-body::-webkit-scrollbar{width:6px}
+.accounts::-webkit-scrollbar-thumb,.console-body::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg, var(--accent-2), var(--accent-3));
+    border-radius:9px;
+}
+.accounts::-webkit-scrollbar-track,.console-body::-webkit-scrollbar-track{background:transparent}
+
+/* ---------- Account card ---------- */
+.card{
+    border:1px solid var(--line);border-radius:var(--r);
+    background:
+        linear-gradient(180deg, rgba(26,32,46,.6) 0%, rgba(13,17,25,.9) 100%);
+    padding:18px 20px;transition:all .3s cubic-bezier(.4,0,.2,1);
+    position:relative;overflow:hidden;
+}
+.card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(167,139,250,.3),transparent);
+    opacity:0;transition:opacity .3s;
+}
+.card:hover{
+    border-color:rgba(167,139,250,.3);
+    box-shadow:
+        0 16px 40px -12px rgba(0,0,0,.7),
+        0 0 0 1px rgba(167,139,250,.1),
+        0 0 32px -12px var(--accent-glow);
+    transform:translateY(-2px);
+}
+.card:hover::before{opacity:1}
+
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.who{display:flex;align-items:center;gap:14px;min-width:0}
+.avatar{
+    position:relative;width:48px;height:48px;border-radius:14px;
+    background:linear-gradient(135deg, rgba(167,139,250,.2), rgba(139,92,246,.1));
+    border:1px solid rgba(167,139,250,.25);
+    display:grid;place-items:center;
+    color:var(--accent);font-size:18px;flex-shrink:0;
+    box-shadow:0 4px 16px -4px rgba(0,0,0,.6), 0 0 20px -8px var(--accent-glow);
+}
+.avatar b{
+    position:absolute;right:-7px;bottom:-7px;
+    background:linear-gradient(180deg, #b49bff, #8b5cf6);
+    color:#0a0616;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;
+    padding:2px 7px;border-radius:7px;border:2px solid var(--bg);
+    box-shadow:0 2px 8px rgba(0,0,0,.5), 0 0 12px -2px var(--accent-glow);
+}
+.nick{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;letter-spacing:-.01em}
+.region{
+    font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:7px;
+    background:rgba(167,139,250,.1);color:var(--accent);
+    border:1px solid rgba(167,139,250,.2);
+    letter-spacing:.05em;
+}
+.meta{display:flex;align-items:center;gap:10px;margin-top:4px;color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:11.5px;flex-wrap:wrap}
+.meta .copy{border:0;background:none;color:var(--faint);cursor:pointer;padding:2px;transition:color .2s}
+.meta .copy:hover{color:var(--accent)}
+.meta .up{display:inline-flex;gap:5px;align-items:center;color:var(--faint)}
+
+.pill{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:6px 13px;border-radius:999px;
+    font-size:12px;font-weight:600;border:1px solid;
+    letter-spacing:.01em;transition:all .2s;
+    backdrop-filter:blur(8px);
+}
+.pill i{font-size:6px}
+.pill.online{
+    color:var(--ok);border-color:rgba(52,211,153,.3);
+    background:rgba(52,211,153,.08);
+    box-shadow:0 0 16px -4px var(--ok-glow);
+}
+.pill.match{
+    color:var(--accent);border-color:rgba(167,139,250,.35);
+    background:rgba(167,139,250,.1);
+    box-shadow:0 0 16px -4px var(--accent-glow);
+}
+.pill.search,.pill.paused{
+    color:var(--warn);border-color:rgba(251,191,36,.3);
+    background:rgba(251,191,36,.08);
+    box-shadow:0 0 16px -4px var(--warn-glow);
+}
+.pill.error{
+    color:var(--bad);border-color:rgba(248,113,113,.3);
+    background:rgba(248,113,113,.08);
+    box-shadow:0 0 16px -4px var(--bad-glow);
+}
+
+.nums{
+    display:grid;grid-template-columns:repeat(3,1fr);margin-top:16px;
+    border:1px solid var(--line-soft);border-radius:var(--r-sm);overflow:hidden;
+    background:rgba(5,7,12,.5);
+}
+.nums div{padding:12px 16px;border-right:1px solid var(--line-soft);transition:background .2s}
+.nums div:last-child{border-right:0}
+.nums div:hover{background:rgba(167,139,250,.04)}
+.nums span{display:block;color:var(--faint);font-size:11.5px;letter-spacing:.03em}
+.nums strong{font-family:'IBM Plex Mono',monospace;font-size:14.5px;font-weight:600;letter-spacing:-.02em}
+.nums .gain strong{
+    color:var(--ok);
+    text-shadow:0 0 20px var(--ok-glow);
+}
+
+.prog{margin-top:16px}
+.prog-row{display:flex;justify-content:space-between;color:var(--dim);font-size:12px;margin-bottom:8px;gap:8px;flex-wrap:wrap}
+.prog-row b{color:var(--text-soft);font-family:'IBM Plex Mono',monospace;font-weight:500}
+.track{
+    height:7px;border-radius:99px;
+    background:rgba(5,7,12,.8);overflow:hidden;
+    box-shadow:0 1px 4px rgba(0,0,0,.5) inset, 0 0 0 1px rgba(255,255,255,.02);
+}
+.fill{
+    height:100%;border-radius:99px;
+    background:linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa, #c4b5fd);
+    background-size:200% 100%;
+    transition:width .8s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 16px var(--accent-glow), 0 0 8px rgba(167,139,250,.5);
+    animation:shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+}
+.prog-foot{display:flex;justify-content:space-between;margin-top:7px;color:var(--faint);font-family:'IBM Plex Mono',monospace;font-size:11px}
+
+.card-foot{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft);flex-wrap:wrap;
+}
+.last{color:var(--faint);font-size:12px;display:inline-flex;gap:7px;align-items:center}
+.icons{display:flex;gap:7px}
+.ib{
+    width:36px;height:36px;border-radius:10px;
+    border:1px solid var(--line-bright);
+    background:linear-gradient(180deg, var(--surface-3), var(--surface-2));
+    color:var(--dim);cursor:pointer;display:grid;place-items:center;
+    font-size:13px;transition:all .2s;
+    box-shadow:0 2px 8px -2px rgba(0,0,0,.5);
+}
+.ib:hover{
+    color:var(--accent);
+    background:linear-gradient(180deg, rgba(167,139,250,.15), rgba(139,92,246,.08));
+    border-color:rgba(167,139,250,.35);
+    transform:translateY(-1px);
+    box-shadow:0 4px 16px -4px rgba(0,0,0,.6), 0 0 20px -6px var(--accent-glow);
+}
+.ib:active{transform:translateY(0)}
+.ib.danger:hover{
+    color:var(--bad);
+    border-color:rgba(248,113,113,.4);
+    background:rgba(248,113,113,.1);
+    box-shadow:0 4px 16px -4px rgba(0,0,0,.6), 0 0 20px -6px var(--bad-glow);
+}
+
+.empty{text-align:center;padding:72px 20px;color:var(--dim)}
+.empty i{font-size:34px;color:var(--faint);margin-bottom:16px;display:block;opacity:.6}
+.empty p{margin-bottom:20px;font-size:14px}
+.empty .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- Console ---------- */
+.console{display:flex;flex-direction:column;height:760px}
+.c-tools{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:14px 18px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap;
+}
+.c-tabs{display:flex;gap:5px}
+.c-tabs button,.c-tools .tool{
+    border:1px solid transparent;background:none;color:var(--dim);
+    padding:7px 13px;border-radius:9px;font-size:12px;font-weight:600;
+    cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+    transition:all .2s;
+}
+.c-tabs button:hover,.c-tools .tool:hover{color:var(--text);background:rgba(167,139,250,.06)}
+.c-tabs button.active,.c-tools .tool.active{
+    color:var(--accent);
+    background:linear-gradient(180deg, rgba(167,139,250,.15), rgba(139,92,246,.08));
+    border-color:rgba(167,139,250,.25);
+    box-shadow:0 2px 8px -2px rgba(0,0,0,.4), 0 0 16px -6px var(--accent-glow);
+}
+.c-tools .tool{padding:7px 10px}
+.console-body{
+    flex:1;overflow-y:auto;padding:14px 18px;
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.7;
+    background:rgba(5,7,12,.6);
+}
+.ln{display:grid;grid-template-columns:62px 16px 1fr;gap:8px;padding:4px 0;border-bottom:1px dashed rgba(30,38,52,.5)}
+.ln:last-child{border-bottom:0}
+.ln .t{color:var(--faint)}
+.ln .i{text-align:center;padding-top:2px;font-size:11px}
+.ln .m{color:#b8c0d4;word-break:break-word}
+.ln.success .i,.ln.success .m{color:var(--ok)}
+.ln.warning .i,.ln.warning .m{color:var(--warn)}
+.ln.error .i,.ln.error .m{color:var(--bad)}
+.ln.info .i{color:var(--info)}
+.c-foot{
+    display:flex;justify-content:space-between;padding:12px 18px;
+    border-top:1px solid var(--line-soft);color:var(--faint);font-size:12px;
+    background:linear-gradient(180deg, transparent, rgba(167,139,250,.03));
+}
+.c-foot .live{display:inline-flex;align-items:center;gap:7px;color:var(--ok)}
+
+/* ---------- Modals ---------- */
+.modal-bg{
+    position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(2,3,6,.88);backdrop-filter:blur(12px);
+    overflow-y:auto;
+}
+.modal-bg.active{display:flex}
+.modal{
+    width:100%;max-width:500px;
+    background:
+        linear-gradient(180deg, rgba(26,32,46,.95) 0%, rgba(13,17,25,.98) 100%);
+    border:1px solid var(--line-bright);border-radius:20px;padding:28px;
+    max-height:calc(100vh - 40px);overflow-y:auto;
+    animation:up .3s cubic-bezier(.4,0,.2,1);
+    box-shadow:
+        0 40px 80px -20px rgba(0,0,0,.9),
+        0 0 60px -20px var(--accent-glow),
+        0 0 0 1px rgba(255,255,255,.03) inset;
+    position:relative;
+}
+.modal::before{
+    content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    opacity:.5;
+}
+@keyframes up{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.m-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.m-head h3{font-family:'Sora',sans-serif;font-size:16px;display:flex;gap:10px;align-items:center;letter-spacing:-.01em}
+.m-head h3 i{color:var(--accent);filter:drop-shadow(0 0 8px var(--accent-glow))}
+.x{
+    width:34px;height:34px;border-radius:10px;
+    border:1px solid var(--line-bright);
+    background:var(--surface-3);color:var(--dim);cursor:pointer;
+    transition:all .2s;display:grid;place-items:center;
+}
+.x:hover{color:var(--text);background:var(--surface-2);border-color:#34405a;transform:rotate(90deg)}
+.note{
+    display:flex;gap:10px;padding:14px 16px;border-radius:var(--r-sm);
+    background:linear-gradient(180deg, rgba(167,139,250,.12), rgba(139,92,246,.06));
+    color:#c4b5fd;font-size:12.5px;
+    margin-bottom:20px;border:1px solid rgba(167,139,250,.2);
+    box-shadow:0 0 20px -8px var(--accent-glow) inset;
+}
+.note i{margin-top:3px}
+.f{margin-bottom:18px}
+.f label{display:block;margin-bottom:8px;color:var(--text-soft);font-size:12.5px;font-weight:600;letter-spacing:.03em}
+.in{
+    width:100%;padding:13px 16px;border-radius:var(--r-sm);
+    border:1px solid var(--line-bright);background:rgba(5,7,12,.7);
+    font-size:13.5px;outline:none;font-family:'IBM Plex Mono',monospace;
+    transition:all .2s;
+}
+.in::placeholder{color:var(--faint)}
+.in:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft), 0 0 20px -8px var(--accent-glow);
+    background:rgba(5,7,12,.95);
+}
+select.in{font-family:'DM Sans',sans-serif;cursor:pointer}
+select.in option{background:var(--surface-2)}
+textarea.in{min-height:100px;resize:vertical}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.m-actions{display:flex;gap:12px;margin-top:24px}
+.m-actions .btn{flex:1}
+
+/* ---------- Toast ---------- */
+.toasts{position:fixed;top:20px;right:20px;z-index:100;display:grid;gap:10px;pointer-events:none}
+.toast{
+    display:flex;gap:12px;align-items:center;
+    min-width:260px;max-width:400px;padding:14px 18px;
+    border-radius:14px;
+    background:linear-gradient(180deg, rgba(26,32,46,.98) 0%, rgba(18,23,34,.98) 100%);
+    border:1px solid var(--line-bright);font-size:13px;font-weight:500;
+    box-shadow:
+        0 24px 60px -16px rgba(0,0,0,.9),
+        0 0 40px -12px var(--accent-glow),
+        0 0 0 1px rgba(255,255,255,.03) inset;
+    animation:tin .35s cubic-bezier(.4,0,.2,1);pointer-events:auto;
+    backdrop-filter:blur(16px);
+}
+.toast.success i{color:var(--ok);filter:drop-shadow(0 0 8px var(--ok-glow))}
+.toast.error i{color:var(--bad);filter:drop-shadow(0 0 8px var(--bad-glow))}
+.toast.info i{color:var(--info);filter:drop-shadow(0 0 8px var(--info-glow))}
+@keyframes tin{from{opacity:0;transform:translateX(32px) scale(.95)}to{opacity:1;transform:none}}
+
+.mobile-nav{display:none}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1200px){
+    .workspace{grid-template-columns:1fr}
+    .console{height:560px}
+    .stats{grid-template-columns:repeat(3,1fr)}
+    .stat:nth-child(3){border-right:0}
+    .stat:nth-child(-n+3){border-bottom:1px solid var(--line-soft)}
+}
+@media(max-width:800px){
+    .shell{padding:16px 16px 100px}
+    .stats{grid-template-columns:1fr 1fr}
+    .stat{border-right:1px solid var(--line-soft)!important;border-bottom:1px solid var(--line-soft)}
+    .stat:nth-child(even){border-right:0!important}
+    .stat:last-child{grid-column:1/-1;border-right:0!important;border-bottom:0}
+    .stat .v{font-size:22px}
+    .hide-sm{display:none}
+    .accounts{max-height:none;padding:14px}
+    .seg{width:100%}
+    .seg button{flex:1}
+    .mobile-tab{display:none}
+    .mobile-tab.active{display:block}
+    .console.mobile-tab.active{display:flex}
+    .mobile-nav{
+        position:fixed;left:0;right:0;bottom:0;height:68px;z-index:40;
+        display:flex;background:rgba(5,7,12,.92);
+        border-top:1px solid var(--line);backdrop-filter:blur(20px);
+        padding-bottom:env(safe-area-inset-bottom);
+        box-shadow:0 -12px 32px -12px rgba(0,0,0,.8);
+    }
+    .mobile-nav::before{
+        content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+        background:linear-gradient(90deg,transparent,var(--accent),transparent);
+        opacity:.3;
+    }
+    .mobile-nav button{
+        flex:1;border:0;background:none;color:var(--faint);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        gap:5px;font-size:11px;font-weight:600;cursor:pointer;transition:all .25s;
+        position:relative;
+    }
+    .mobile-nav button i{font-size:18px;transition:all .25s}
+    .mobile-nav button.active{color:var(--accent)}
+    .mobile-nav button.active i{filter:drop-shadow(0 0 10px var(--accent-glow));transform:translateY(-1px)}
+    .modal-bg{align-items:flex-end;padding:0}
+    .modal{border-radius:22px 22px 0 0;max-height:92vh}
+    .g2{grid-template-columns:1fr}
+    .toasts{left:14px;right:14px}
+    .toast{max-width:none}
+}
+@media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+<div class="toasts" id="toast-wrap"></div>
+
+<div class="shell">
+    <header class="topbar">
+        <div class="actions">
+            <button class="btn" onclick="manualRefresh()"><i class="fa-solid fa-rotate"></i><span class="hide-sm">Refresh</span></button>
+            <button class="btn btn-ok" onclick="openCreateTeamModal()"><i class="fa-solid fa-users"></i><span class="hide-sm">Create team</span></button>
+            <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i><span class="hide-sm">Add account</span></button>
+        </div>
+    </header>
+
+    <section class="stats">
+        <div class="stat">
+            <div class="k"><i class="fa-solid fa-user-group"></i>Accounts</div>
+            <div class="v" id="stat-accounts">0</div>
+            <div class="s" id="stat-online">0 online</div>
+        </div>
+        <div class="stat">
+            <div class="k"><i class="fa-solid fa-flag-checkered"></i>Matches started</div>
+            <div class="v" id="stat-started">0</div>
+            <div class="s" id="stat-per-hour">~0 / hour</div>
+        </div>
+        <div class="stat">
+            <div class="k"><i class="fa-solid fa-circle-check"></i>Matches done</div>
+            <div class="v" id="stat-completed">0</div>
+            <div class="s" id="stat-active-matches">0 active</div>
+        </div>
+        <div class="stat">
+            <div class="k"><i class="fa-solid fa-chart-line"></i>EXP gained</div>
+            <div class="v" id="stat-exp">+0</div>
+            <div class="s" id="stat-exp-rate">~0 EXP/hr</div>
+        </div>
+        <div class="stat">
+            <div class="k"><i class="fa-regular fa-clock"></i>Uptime</div>
+            <div class="v" id="stat-uptime">00:00:00</div>
+            <div class="s">since this page opened</div>
+        </div>
+    </section>
+
+    <section class="workspace">
+        <div class="panel mobile-tab active" id="tab-accounts">
+            <div class="panel-head">
+                <h2>Accounts <span class="count" id="badge-count">0</span></h2>
+                <button class="btn" id="btn-pause-all" onclick="togglePauseAll()"><i class="fa-solid fa-pause"></i><span class="hide-sm">Pause all</span></button>
+            </div>
+            <div class="controls">
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="account-search" type="text" placeholder="Search name or UID" oninput="filterAccounts()">
+                </div>
+                <div class="seg">
+                    <button class="filter active" onclick="setFilter('all',this)">All</button>
+                    <button class="filter" onclick="setFilter('in_match',this)">In match</button>
+                    <button class="filter" onclick="setFilter('online',this)">Online</button>
+                    <button class="filter" onclick="setFilter('paused',this)">Paused</button>
+                </div>
+            </div>
+            <div class="accounts" id="accounts-container">
+                <div class="empty"><i class="fa-solid fa-circle-notch fa-spin"></i><p>Loading accounts…</p></div>
+            </div>
+        </div>
+
+        <div class="panel console mobile-tab" id="tab-console">
+            <div class="panel-head">
+                <h2><i class="fa-solid fa-wave-square" style="color:var(--accent)"></i>Activity</h2>
+                <button class="tool btn" style="padding:7px 10px" onclick="clearLogs()" title="Clear"><i class="fa-solid fa-broom"></i></button>
+            </div>
+            <div class="c-tools">
+                <div class="c-tabs">
+                    <button class="cfilter active" onclick="setLogFilter('all',this)"><i class="fa-solid fa-list-ul"></i>All</button>
+                    <button class="cfilter" onclick="setLogFilter('match',this)"><i class="fa-solid fa-crosshairs"></i>Match</button>
+                    <button class="cfilter" onclick="setLogFilter('success',this)"><i class="fa-solid fa-bolt"></i>EXP</button>
+                    <button class="cfilter" onclick="setLogFilter('error',this)"><i class="fa-solid fa-bug"></i>Issues</button>
+                </div>
+                <button class="tool active" id="btn-autoscroll" onclick="toggleAutoScroll()" title="Follow latest"><i class="fa-solid fa-angles-down"></i></button>
+            </div>
+            <div class="console-body" id="console-stream" onscroll="handleLogScroll()"></div>
+            <div class="c-foot"><span class="live"><span class="pulse"></span>Streaming</span><span>CKRPRO</span></div>
+        </div>
+
+        <div class="panel mobile-tab" id="tab-stats">
+            <div class="panel-head"><h2><i class="fa-solid fa-chart-column" style="color:var(--accent)"></i>Summary</h2></div>
+            <div style="display:grid;gap:0">
+                <div class="stat" style="border-right:0;border-bottom:1px solid var(--line-soft)"><div class="k">Matches started</div><div class="v" id="m-started">0</div><div class="s" id="m-rate">~0 / hour</div></div>
+                <div class="stat" style="border-right:0"><div class="k">EXP gained</div><div class="v" id="m-exp">+0</div><div class="s" id="m-exp-rate">~0 EXP/hr</div></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<nav class="mobile-nav">
+    <button class="active" onclick="switchTab('accounts',this)"><i class="fa-solid fa-user-group"></i>Accounts</button>
+    <button onclick="switchTab('stats',this)"><i class="fa-solid fa-chart-column"></i>Summary</button>
+    <button onclick="switchTab('console',this)"><i class="fa-solid fa-wave-square"></i>Activity</button>
+    <button onclick="openCreateTeamModal()"><i class="fa-solid fa-users" style="color:var(--ok)"></i>Team</button>
+</nav>
+
+<!-- ADD ACCOUNT -->
+<div class="modal-bg" id="add-modal">
+    <div class="modal">
+        <div class="m-head">
+            <h3><i class="fa-solid fa-user-plus"></i>Add account</h3>
+            <button class="x" onclick="closeAddModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="submitAddAccount(event)">
+            <div class="f">
+                <label>Login type</label>
+                <select class="in" id="acc-type" onchange="toggleFormType()">
+                    <option value="guest">Guest (UID + password)</option>
+                    <option value="token">Access token</option>
+                </select>
+            </div>
+            <div id="guest-inputs">
+                <div class="f"><label>Guest UID</label><input id="acc-uid" class="in" type="text" placeholder="UID" autocomplete="off"></div>
+                <div class="f"><label>Password</label><input id="acc-password" class="in" type="text" placeholder="Password" autocomplete="off"></div>
+            </div>
+            <div id="token-inputs" style="display:none">
+                <div class="f"><label>Access token</label><textarea id="acc-token" class="in" placeholder="Paste token"></textarea></div>
+            </div>
+            <div class="m-actions">
+                <button type="button" class="btn" onclick="closeAddModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-play"></i>Save and start</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- CREATE TEAM -->
+<div class="modal-bg" id="team-modal">
+    <div class="modal">
+        <div class="m-head">
+            <h3><i class="fa-solid fa-users"></i>Create team</h3>
+            <button class="x" onclick="closeCreateTeamModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="note">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>Pick a region and clan ID. New accounts are created, join the clan, then queue together as a team.</div>
+        </div>
+        <form onsubmit="submitCreateTeam(event)">
+            <div class="g2">
+                <div class="f">
+                    <label>Region</label>
+                    <select class="in" id="team-region">
+                        <option value="BD">BD — Bangladesh</option>
+                        <option value="IND">IND — India</option>
+                        <option value="ID">ID — Indonesia</option>
+                        <option value="ME">ME — Middle East</option>
+                        <option value="PK">PK — Pakistan</option>
+                        <option value="VN">VN — Vietnam</option>
+                        <option value="TH">TH — Thailand</option>
+                        <option value="TW">TW — Taiwan</option>
+                        <option value="RU">RU — Russia</option>
+                        <option value="SAC">SAC — South America</option>
+                        <option value="BR">BR — Brazil</option>
+                        <option value="NA">NA — North America</option>
+                        <option value="SG">SG — Singapore</option>
+                        <option value="US">US — United States</option>
+                    </select>
+                </div>
+                <div class="f">
+                    <label>Clan ID</label>
+                    <input id="team-clan" class="in" type="text" placeholder="e.g. 3105458988" value="3105458988">
+                </div>
+            </div>
+            <div class="f">
+                <label>Bots</label>
+                <select class="in" id="team-count">
+                    <option value="4" selected>4 bots (full team)</option>
+                    <option value="3">3 bots</option>
+                    <option value="2">2 bots</option>
+                </select>
+            </div>
+            <div class="f">
+                <label>Password for new accounts</label>
+                <input id="team-password" class="in" type="text" value="CKRPRO">
+            </div>
+            <div class="m-actions">
+                <button type="button" class="btn" onclick="closeCreateTeamModal()">Cancel</button>
+                <button type="submit" class="btn btn-ok" id="btn-create-team"><i class="fa-solid fa-bolt"></i>Create and start</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const EXP_TABLE = {
+1:0,2:48,3:202,4:544,5:1012,6:1844,7:2792,8:3800,9:4870,10:6004,
+11:7192,12:8448,13:9760,14:11140,15:12566,16:14060,17:15610,18:17224,19:18902,20:20632,
+21:22424,22:24278,23:26192,24:28166,25:30200,26:32294,27:34448,28:37804,29:41274,30:44870,
+31:48582,32:53394,33:58566,34:64096,35:69994,36:76460,37:83506,38:91128,39:99322,40:108092,
+41:120144,42:133266,43:147472,44:162760,45:179126,46:196572,47:215368,48:235516,49:257010,50:279860,
+51:304056,52:348318,53:394982,54:444044,55:495508,56:549364,57:633756,58:721744,59:813336,60:908522,
+61:1041438,62:1180352,63:1325266,64:1476184,65:1634300,66:1840946,67:2056594,68:2281242,69:2514880,70:2757530,
+71:3059506,72:3372284,73:3699456,74:4041030,75:4397002,76:4829104,77:5282204,78:5756304,79:6251408,80:6776502,
+81:7381324,82:8043154,83:8752982,84:9510808,85:10316338,86:11277190,87:12291748,88:13360304,89:14482858,90:15659418,
+91:17026708,92:18453950,93:19941280,94:21488570,95:23095858,96:24763138,97:26490428,98:28378704,99:30124996,100:32032884
+};
+
+let cachedLogs = [];
+let activeFilter = "all";
+let activeLogFilter = "all";
+let autoScroll = true;
+const clientStart = Date.now();
+let _statsErrorCount = 0;
+
+/* ---------- Toast ---------- */
+function toast(msg, type="info"){
+    const wrap = document.getElementById("toast-wrap");
+    const t = document.createElement("div");
+    t.className = "toast " + type;
+    const icons = {success:"fa-circle-check", error:"fa-circle-xmark", info:"fa-circle-info"};
+    t.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${esc(msg)}</span>`;
+    wrap.appendChild(t);
+    setTimeout(()=>{ t.style.transition=".25s"; t.style.opacity="0"; setTimeout(()=>t.remove(),250); }, 3200);
+}
+
+/* ---------- Add account ---------- */
+function openAddModal(){ document.getElementById("add-modal").classList.add("active"); }
+function closeAddModal(){ document.getElementById("add-modal").classList.remove("active"); }
+function toggleFormType(){
+    const t = document.getElementById("acc-type").value;
+    document.getElementById("guest-inputs").style.display = t === "guest" ? "block" : "none";
+    document.getElementById("token-inputs").style.display = t === "token" ? "block" : "none";
+}
+
+async function postJSON(url, body){
+    const r = await fetch(url, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body || {})});
+    const raw = await r.text();
+    try { return JSON.parse(raw); } catch(e){ return {status:"error", ok:false, error:"HTTP " + r.status}; }
+}
+
+async function submitAddAccount(e){
+    e.preventDefault();
+    const type = document.getElementById("acc-type").value;
+    let payload;
+    if(type === "guest"){
+        const uid = document.getElementById("acc-uid").value.trim();
+        const pass = document.getElementById("acc-password").value.trim();
+        if(!uid || !pass){ toast("UID and password are required", "error"); return; }
+        payload = {uid, password:pass};
+    } else {
+        const token = document.getElementById("acc-token").value.trim();
+        if(!token){ toast("Access token is required", "error"); return; }
+        payload = {token};
+    }
+    try {
+        const d = await postJSON("/api/account/add", payload);
+        if(d.status === "ok"){ closeAddModal(); toast("Account added", "success"); fetchStats(); }
+        else toast("Could not add account: " + (d.error || "unknown error"), "error");
+    } catch(err){ toast("Could not reach the server", "error"); }
+}
+
+/* ---------- Create team ---------- */
+function openCreateTeamModal(){
+    document.getElementById("team-modal").classList.add("active");
+    const btn = document.getElementById("btn-create-team");
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-bolt"></i>Create and start';
+}
+function closeCreateTeamModal(){ document.getElementById("team-modal").classList.remove("active"); }
+
+async function submitCreateTeam(e){
+    e.preventDefault();
+    const region = document.getElementById("team-region").value;
+    const clan   = document.getElementById("team-clan").value.trim();
+    const count  = parseInt(document.getElementById("team-count").value, 10);
+    const pwd    = document.getElementById("team-password").value.trim() || "CKRPRO";
+    if(!clan){ toast("Clan ID is required", "error"); return; }
+
+    const btn = document.getElementById("btn-create-team");
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>Starting…';
+    let d;
+    try { d = await postJSON("/api/create_team", {region, clan_id: clan, count, password: pwd}); }
+    catch(err){ d = {ok:false, error:"Could not reach the server"}; }
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-bolt"></i>Create and start';
+
+    if(!d.ok){ toast("Could not create team: " + (d.error || "unknown error"), "error"); return; }
+    closeCreateTeamModal();
+    toast(`Creating ${count} bots in ${region}`, "success");
+    [3000, 8000, 15000].forEach(ms => setTimeout(fetchStats, ms));
+}
+
+/* ---------- Actions ---------- */
+async function deleteAccount(uid, authUid=""){
+    if(!confirm(`Remove account ${uid}?`)) return;
+    try {
+        const d = await postJSON("/api/account/delete", {uid, auth_uid:authUid});
+        if(d.status === "ok"){
+            toast("Account removed", "success");
+            const c = document.getElementById("acc-"+uid); if(c) c.remove();
+            fetchStats();
+        } else toast(d.error || "Could not remove account", "error");
+    } catch(e){ toast("Could not reach the server", "error"); }
+}
+async function refreshAcc(uid){
+    toast(`Refreshing ${uid}`, "info");
+    try { await postJSON("/api/account/refresh", {uid}); setTimeout(fetchStats, 800); }
+    catch(e){ toast("Refresh failed", "error"); }
+}
+async function restartAcc(uid){
+    toast(`Restarting ${uid}`, "info");
+    try { await postJSON("/api/account/restart", {uid}); setTimeout(fetchStats, 800); }
+    catch(e){ toast("Restart failed", "error"); }
+}
+async function togglePause(uid){
+    try {
+        const d = await postJSON("/api/account/pause", {uid});
+        if(d.status === "ok"){ toast(d.is_paused ? `Paused ${uid}` : `Resumed ${uid}`, d.is_paused ? "info" : "success"); fetchStats(); }
+        else toast(d.error || "Could not change pause state", "error");
+    } catch(e){ toast("Could not reach the server", "error"); }
+}
+async function togglePauseAll(){
+    try {
+        const d = await postJSON("/api/account/pause_all", {});
+        if(d.status === "ok"){ toast(d.all_paused ? "All accounts paused" : "All accounts resumed", d.all_paused ? "info" : "success"); fetchStats(); }
+        else toast(d.error || "Failed", "error");
+    } catch(e){ toast("Could not reach the server", "error"); }
+}
+
+/* ---------- Filter ---------- */
+function setFilter(f, btn){
+    activeFilter = f;
+    document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+    if(btn) btn.classList.add("active");
+    filterAccounts();
+}
+function filterAccounts(){
+    const q = (document.getElementById("account-search").value || "").toLowerCase().trim();
+    document.querySelectorAll(".card").forEach(card=>{
+        const uid = (card.dataset.uid || "").toLowerCase();
+        const nick = (card.dataset.nick || "").toLowerCase();
+        const st = (card.dataset.status || "").toLowerCase();
+        const paused = card.dataset.paused === "1";
+        const okSearch = !q || uid.includes(q) || nick.includes(q);
+        let okFilter = true;
+        if(activeFilter === "in_match") okFilter = st.includes("match") && !paused;
+        else if(activeFilter === "online") okFilter = (st.includes("online") || st.includes("search")) && !paused;
+        else if(activeFilter === "paused") okFilter = paused || st.includes("paused");
+        card.style.display = okSearch && okFilter ? "block" : "none";
+    });
+}
+
+/* ---------- Render accounts ---------- */
+function renderAccounts(accounts){
+    const container = document.getElementById("accounts-container");
+    document.getElementById("badge-count").innerText = accounts.length;
+
+    const allPaused = accounts.length > 0 && accounts.every(a=>a.is_paused || a.status === "PAUSED");
+    document.getElementById("btn-pause-all").innerHTML = allPaused
+        ? '<i class="fa-solid fa-play"></i><span class="hide-sm">Resume all</span>'
+        : '<i class="fa-solid fa-pause"></i><span class="hide-sm">Pause all</span>';
+
+    if(accounts.length === 0){
+        container.innerHTML = `
+            <div class="empty">
+                <i class="fa-solid fa-user-plus"></i>
+                <p>No accounts yet. Create a team or add one manually.</p>
+                <div class="row">
+                    <button class="btn btn-ok" onclick="openCreateTeamModal()"><i class="fa-solid fa-users"></i>Create team</button>
+                    <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i>Add account</button>
+                </div>
+            </div>`;
+        return;
+    }
+    if(container.querySelector(".empty")) container.innerHTML = "";
+
+    const uids = new Set(accounts.map(a=>String(a.uid)));
+    container.querySelectorAll(".card").forEach(c=>{ if(!uids.has(c.dataset.uid)) c.remove(); });
+
+    accounts.forEach(acc=>{
+        const uid = String(acc.uid);
+        const level = Math.max(1, parseInt(acc.level) || 1);
+        const nextLvl = Math.min(100, level + 1);
+        const baseExp = EXP_TABLE[level] ?? 0;
+        const targetExp = EXP_TABLE[nextLvl] ?? baseExp + 50000;
+        const needed = Math.max(1, targetExp - baseExp);
+        const curExp = Number(acc.current_exp || 0);
+        const earned = Math.max(0, curExp - baseExp);
+        const remaining = Math.max(0, targetExp - curExp);
+        const pct = level >= 100 ? 100 : Math.min(100, Math.max(0, earned / needed * 100));
+
+        const paused = Boolean(acc.is_paused || acc.status === "PAUSED");
+        const status = paused ? "PAUSED" : (acc.status || "ONLINE");
+
+        let cls = "online";
+        if(paused) cls = "paused";
+        else if(status.startsWith("IN_MATCH")) cls = "match";
+        else if(status === "SEARCHING") cls = "search";
+        else if(status !== "ONLINE") cls = "error";
+
+        const stText = paused ? "Paused"
+            : status.startsWith("IN_MATCH") ? `In match (${acc.active_matches || 1})`
+            : status === "ONLINE" ? "Online"
+            : status === "SEARCHING" ? "Searching"
+            : status.charAt(0) + status.slice(1).toLowerCase();
+
+        let card = document.getElementById("acc-" + uid);
+        if(!card){
+            card = document.createElement("div");
+            card.id = "acc-" + uid;
+            card.className = "card";
+            container.appendChild(card);
+        }
+        card.dataset.uid = uid;
+        card.dataset.nick = acc.nickname || "";
+        card.dataset.status = cls === "match" ? "in_match" : cls;
+        card.dataset.paused = paused ? "1" : "0";
+
+        card.innerHTML = `
+            <div class="card-top">
+                <div class="who">
+                    <div class="avatar"><i class="fa-solid fa-user-astronaut"></i><b>${level}</b></div>
+                    <div style="min-width:0">
+                        <div class="nick">${esc(acc.nickname || "Unknown")}<span class="region">${esc(acc.region || "BD")}</span></div>
+                        <div class="meta">
+                            <span>${esc(uid)}</span>
+                            <button class="copy" onclick="copyUid('${escAttr(uid)}')" title="Copy UID"><i class="fa-regular fa-copy"></i></button>
+                            <span class="up acc-uptime" data-uptime="${Math.floor(acc.uptime_seconds || 0)}" data-paused="${paused ? 1 : 0}"><i class="fa-regular fa-hourglass-half"></i>${fmtDur(acc.uptime_seconds || 0)}</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="pill ${cls}"><i class="fa-solid fa-circle"></i>${esc(stText)}</span>
+            </div>
+            <div class="nums">
+                <div><span>Initial EXP</span><strong>${Number(acc.initial_exp || 0).toLocaleString()}</strong></div>
+                <div><span>Current</span><strong>${curExp.toLocaleString()}</strong></div>
+                <div class="gain"><span>Gained</span><strong>+${Number(acc.gained_exp || 0).toLocaleString()}</strong></div>
+            </div>
+            <div class="prog">
+                <div class="prog-row"><span>Level ${level} to ${nextLvl}</span><b>${remaining.toLocaleString()} EXP left</b></div>
+                <div class="track"><div class="fill" style="width:${pct.toFixed(1)}%"></div></div>
+                <div class="prog-foot"><span>${earned.toLocaleString()} / ${needed.toLocaleString()}</span><span>${pct.toFixed(1)}%</span></div>
+            </div>
+            <div class="card-foot">
+                <span class="last"><i class="fa-regular fa-clock"></i>${esc(acc.last_match_time || "Running…")}</span>
+                <div class="icons">
+                    <button class="ib" onclick="togglePause('${escAttr(uid)}')" title="${paused ? "Resume" : "Pause"}"><i class="fa-solid ${paused ? "fa-play" : "fa-pause"}"></i></button>
+                    <button class="ib" onclick="restartAcc('${escAttr(uid)}')" title="Restart"><i class="fa-solid fa-rotate-right"></i></button>
+                    <button class="ib" onclick="refreshAcc('${escAttr(uid)}')" title="Refresh EXP"><i class="fa-solid fa-arrows-rotate"></i></button>
+                    <button class="ib danger" onclick="deleteAccount('${escAttr(uid)}','${escAttr(acc.auth_uid || "")}')" title="Remove"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>`;
+    });
+    filterAccounts();
+}
+
+/* ---------- Logs ---------- */
+const LOG_ICONS = {success:"fa-check", warning:"fa-triangle-exclamation", error:"fa-circle-xmark", info:"fa-angle-right"};
+
+function setLogFilter(f, btn){
+    activeLogFilter = f;
+    document.querySelectorAll(".cfilter").forEach(x=>x.classList.remove("active"));
+    if(btn) btn.classList.add("active");
+    renderLogs(cachedLogs);
+}
+function renderLogs(logs){
+    const stream = document.getElementById("console-stream");
+    let list = logs || [];
+    if(activeLogFilter === "match") list = list.filter(l => String(l.message || "").toLowerCase().includes("match"));
+    else if(activeLogFilter === "success") list = list.filter(l => l.level === "success" || String(l.message || "").includes("EXP"));
+    else if(activeLogFilter === "error") list = list.filter(l => l.level === "error" || l.level === "warning");
+
+    stream.innerHTML = list.map(l=>{
+        const lv = LOG_ICONS[l.level] ? l.level : "info";
+        return `<div class="ln ${lv}">
+            <span class="t">${esc(l.time || "00:00:00")}</span>
+            <span class="i"><i class="fa-solid ${LOG_ICONS[lv]}"></i></span>
+            <span class="m">${esc(l.message || "")}</span>
+        </div>`;
+    }).join("");
+    if(autoScroll) stream.scrollTop = stream.scrollHeight;
+}
+async function clearLogs(){
+    try { await postJSON("/api/logs/clear", {}); cachedLogs = []; renderLogs([]); toast("Activity cleared", "info"); }
+    catch(e){ toast("Could not clear", "error"); }
+}
+function toggleAutoScroll(){
+    autoScroll = !autoScroll;
+    document.getElementById("btn-autoscroll").classList.toggle("active", autoScroll);
+    if(autoScroll) document.getElementById("console-stream").scrollTop = 999999;
+}
+function handleLogScroll(){
+    const s = document.getElementById("console-stream");
+    if(s.scrollHeight - s.scrollTop - s.clientHeight > 80 && autoScroll){
+        autoScroll = false;
+        document.getElementById("btn-autoscroll").classList.remove("active");
+    }
+}
+
+/* ---------- Stats polling ---------- */
+async function fetchStats(){
+    let d = null, lastErr = null;
+    try {
+        const r = await fetch("/api/stats", {headers:{"Accept":"application/json"}, cache:"no-store"});
+        if(r.ok) d = await r.json(); else lastErr = "HTTP " + r.status;
+    } catch(err){ lastErr = err.message; }
+
+    if(!d){
+        if(++_statsErrorCount <= 1){
+            const c = document.getElementById("accounts-container");
+            if(c && !c.querySelector(".card")){
+                c.innerHTML = `<div class="empty"><i class="fa-solid fa-plug-circle-xmark" style="color:var(--bad)"></i><p>Can't reach the backend.<br><span style="font-size:12px;color:var(--faint)">${esc(lastErr || "unknown error")}</span></p></div>`;
+            }
+        }
+        return;
+    }
+    _statsErrorCount = 0;
+
+    const accs = Array.isArray(d.accounts) ? d.accounts : [];
+    const logs = Array.isArray(d.logs) ? d.logs : [];
+    const uptimeH = Math.max(0.016, (d.uptime || 60) / 3600);
+    const perH = Math.round((d.total_matches_started || 0) / uptimeH);
+    const expTxt = "+" + Number(d.total_gained_exp || 0).toLocaleString();
+    const expRate = "~" + Number(d.exp_per_hour || 0).toLocaleString() + " EXP/hr";
+    const online = accs.filter(a => a.status === "ONLINE" || (a.status || "").startsWith("IN_MATCH")).length;
+
+    setText("stat-accounts", d.total_accounts ?? accs.length);
+    setText("stat-online", online + " online");
+    setText("stat-started", d.total_matches_started || 0);
+    setText("stat-per-hour", "~" + perH + " / hour");
+    setText("stat-completed", d.total_matches || 0);
+    setText("stat-active-matches", (d.total_active_matches || 0) + " active");
+    setText("stat-exp", expTxt);
+    setText("stat-exp-rate", expRate);
+    setText("m-started", d.total_matches_started || 0);
+    setText("m-rate", "~" + perH + " / hour");
+    setText("m-exp", expTxt);
+    setText("m-exp-rate", expRate);
+
+    cachedLogs = logs;
+    renderAccounts(accs);
+    renderLogs(logs);
+}
+
+/* ---------- Helpers ---------- */
+function copyUid(uid){
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(uid).then(()=>toast("UID copied", "success"));
+    else toast("UID: " + uid, "info");
+}
+function switchTab(name, btn){
+    document.querySelectorAll(".mobile-nav button").forEach(x=>x.classList.remove("active"));
+    if(btn) btn.classList.add("active");
+    document.querySelectorAll(".mobile-tab").forEach(x=>x.classList.remove("active"));
+    const el = document.getElementById("tab-" + name);
+    if(el) el.classList.add("active");
+}
+function setText(id, v){ const el = document.getElementById(id); if(el) el.innerText = v ?? ""; }
+function esc(s){
+    if(s === null || s === undefined) return "";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function escAttr(s){ return esc(s); }
+function fmtDur(sec){
+    sec = Math.max(0, Math.floor(Number(sec) || 0));
+    const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    if(h > 0) return `${h}h ${String(m).padStart(2,"0")}m`;
+    return `${String(m).padStart(2,"0")}m ${String(s).padStart(2,"0")}s`;
+}
+function manualRefresh(){ fetchStats(); toast("Refreshed", "info"); }
+
+/* ---------- Clocks ---------- */
+setInterval(()=>{
+    const el = Math.floor((Date.now() - clientStart) / 1000);
+    setText("stat-uptime", [Math.floor(el/3600), Math.floor(el%3600/60), el%60].map(n=>String(n).padStart(2,"0")).join(":"));
+    document.querySelectorAll(".acc-uptime").forEach(u=>{
+        if(u.dataset.paused === "1") return;
+        const v = parseInt(u.dataset.uptime || "0") + 1;
+        u.dataset.uptime = v;
+        u.innerHTML = `<i class="fa-regular fa-hourglass-half"></i>${fmtDur(v)}`;
+    });
+}, 1000);
+
+document.addEventListener("keydown", e => {
+    if(e.key === "Escape"){ closeAddModal(); closeCreateTeamModal(); }
+});
+document.querySelectorAll(".modal-bg").forEach(m => {
+    m.addEventListener("click", e => { if(e.target === m) m.classList.remove("active"); });
+});
+
+/* ---------- Start (no login) ---------- */
+fetchStats();
+setInterval(fetchStats, 3000);
+</script>
+</body>
+</html>
